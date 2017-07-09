@@ -9,6 +9,9 @@ import Icon from 'app/components/elements/Icon';
 import shouldComponentUpdate from 'app/utils/shouldComponentUpdate';
 import {connect} from 'react-redux'
 import { translate } from 'app/Translator.js';
+import {immutableAccessor} from 'app/utils/Accessors';
+import extractContent from 'app/utils/ExtractContent';
+
 
 function topPosition(domElt) {
     if (!domElt) {
@@ -176,16 +179,25 @@ class PostsList extends React.Component {
             ignore_result, account} = this.props;
         const {thumbSize, showPost, nsfwPref} = this.state
         const postsInfo = [];
+
         posts.forEach((item) => {
             const cont = content.get(item);
             if(!cont) {
                 console.error('PostsList --> Missing cont key', item)
                 return
             }
+
+            const post_detail = extractContent(immutableAccessor, cont);
+
+            const isNpTag = post_detail.json_metadata.tags.indexOf('nepal')
             const ignore = ignore_result && ignore_result.has(cont.get('author'))
             const hide = cont.getIn(['stats', 'hide'])
-            if(!(ignore || hide) || showSpam) // rephide
-                postsInfo.push({item, ignore})
+
+            if (isNpTag != -1) {
+                if(!(ignore || hide) || showSpam) // rephide
+                    postsInfo.push({item, ignore})
+            }
+
         });
         const renderSummary = items => items.map(item => <li key={item.item}>
             <PostSummary

@@ -200,7 +200,7 @@ class PickAccount extends React.Component {
                         <br />
                         <Progress tabIndex="0" value={10} max={100} />
                         <br />
-                        <h4 style={{ color: "#4078c0" }}>Welcome to Steemit</h4>
+                        <h4 style={{ color: "#4078c0" }}>Welcome to Steemit Nepal</h4>
                         <div className="secondary">
                              <p>Your account name is how you will be known on Steemit.<br />
                                  {/*Your account name <strong>can never be changed</strong>, so please choose carefully.*/}</p>
